@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace ConsoleApplication3
         private static crcms db = new crcms();
         static void Main(string[] args)
         {
-            Exmpl05();
+            Exmpl07();
         }
 
         //Фильтрация
@@ -181,6 +182,91 @@ namespace ConsoleApplication3
             foreach (var item in q)
             {
                 Console.WriteLine(item.Key);
+            }
+        }
+
+        //Методы преобразования
+        //ofType
+        //Cast
+        //ToArray
+        //ToList
+        //ToDictionary
+        //ToLookup
+        //AsEnumerable
+        //AsQueryable
+
+        public void Exmpl06()
+        {
+            ArrayList classList = new ArrayList();
+            classList.AddRange(new int[] { 3, 4, 5 });
+            classList.AddRange(new string[] { "3", "4", "5" });
+
+            IEnumerable<int> seq = classList.Cast<int>();
+
+            IEnumerable<int> seq2 = classList.Cast<int>();
+
+            Dictionary<string, string> q2 = db.Area.ToDictionary(a => a.IP, a => a.Name);
+
+            Dictionary<string, string> q3 = new Dictionary<string, string>();
+
+            foreach (Area item in db.Area)
+            {
+                q3.Add(item.IP, item.Name);
+            }
+        }
+
+        //Поэлементные операции
+        //First
+        //FirstOdDefault
+        //Last
+        //LastOrDefault
+        //Singl
+        //SinglORDeafult
+        //ElementAt
+        //ElemnentAtOrDeafult
+        //DefaultIfEmpty
+
+        public static void Exmpl07()
+        {
+            //var q1 = db.Area.First(f=>!string.IsNullOrEmpty(f.IP));
+            var q3 = db.Area.FirstOrDefault(f => f.IP == "000");
+
+            //var q4 = db.Area.ElementAt(3); //db.Area[3];
+
+            List<int?> obj = new List<int?>() { 1, 2, null };
+
+            var q4 = obj.ElementAtOrDefault(2);
+        }
+
+        //Методы агерегирования
+        //Count
+        //longCount
+        //Max, MIX
+        //SUM, AVearge
+
+        //Квантификаторы
+        //Contains
+        //Any
+        //all
+        //Sequence  -- последолвательности
+        //Equal
+
+        public static void Exmpl08()
+        {
+            int[] zone = new[] { 2, 3, 4, 5, 6, 7 };
+            var q1 = db.Area.Where(w => zone.Contains(w.AreaId));
+
+            bool q2 = db.Area.Select(s => s.AreaId).Contains(3);
+
+            bool q3 = db.Document.Any(d => d.CreatedBy == "Gertsen");
+
+            bool q4 = db.Timer.All(a => a.DateFinish != null);
+
+            //Enumerable.Empty<string>();  --  пустая последвоательность
+
+            foreach (int month in Enumerable.Range(1,12))   //List<int> i = Enumerable.Range(1,12).ToList();
+            {
+                Console.WriteLine(month);
             }
         }
 
